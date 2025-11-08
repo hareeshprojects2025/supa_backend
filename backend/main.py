@@ -15,8 +15,18 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Log startup info
+logger.info("=" * 50)
+logger.info("Starting Mobile Attendance System API")
+logger.info("=" * 50)
+
 # Create database tables
-Base.metadata.create_all(bind=engine)
+try:
+    Base.metadata.create_all(bind=engine)
+    logger.info("✓ Database tables created successfully")
+except Exception as e:
+    logger.error(f"✗ Failed to create database tables: {str(e)}")
+    raise
 
 # Initialize FastAPI app
 app = FastAPI(
